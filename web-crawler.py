@@ -1,13 +1,8 @@
+import csv
 import re
 import requests
 from bs4 import BeautifulSoup
-
-
-def get_soup(url):
-    html_page_source_code_string = requests.get(url).text
-    soup = BeautifulSoup(html_page_source_code_string, 'html.parser')
-
-    return soup
+from pprint import pprint
 
 
 def get_max_pages(soup):
@@ -18,51 +13,82 @@ def get_max_pages(soup):
     return max_pages
 
 
-def scrape_specific_journal(url, separator):
-    current_journal_page_num = 1
+def get_soup(url):
+    html_page_source_code_string = requests.get(url).text
+    soup = BeautifulSoup(html_page_source_code_string, 'html.parser')
+
+    return soup
+
+
+def save_articles_csv(article_list):
+    with open("output.csv", "w") as csvfile:
+        writer = csv.writer(csvfile)
+        for article in article_list:
+            writer.writerow(article)
+
+
+def scrape_specific_journal(url, separator, article_list):
+    current_page_num = 1
 
     soup = get_soup(url)
     max_pages = get_max_pages(soup)
 
-    while current_journal_page_num <= max_pages:
+    article_title = soup.find(
+        'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
+
+    while current_page_num <= max_pages:
         soup = get_soup(url)
 
         for xmp in soup.findAll('xmp', {'class': 'abstract-article'}):
-            print(xmp.string)
-            print('\n')
+            article_abstract = xmp.string
 
-        current_journal_page_num += 1
+            if article_abstract is None:
+                article_abstract = ''.encode('ascii', 'ignore')
+            else:
+                article_abstract = article_abstract.encode('ascii', 'ignore')
 
-        if current_journal_page_num == 2:
-            url += separator + str(current_journal_page_num)
+            article = [article_title, article_abstract]
+            article_list.append(article)
+
+        current_page_num += 1
+
+        if current_page_num == 2:
+            url += separator + str(current_page_num)
         else:
             url = url.split(separator, 1)[0]
-            url += separator + str(current_journal_page_num)
+            url += separator + str(current_page_num)
 
 
-def scrape_main_page(base_url, separator):
-    current_main_page_num = 1
+def scrape_main_page(base_url, separator, article_list):
+    current_page_num = 1
     url = base_url + '/journal'
 
     soup = get_soup(url)
     max_pages = get_max_pages(soup)
 
-    while current_main_page_num <= max_pages:
+    while current_page_num <= max_pages:
         soup = get_soup(url)
 
         for a in soup.findAll('a', {'class': 'title-journal'}):
             journal_endpoint = a.get('href')
-            specific_journal_url = base_url + journal_endpoint
-            scrape_specific_journal(specific_journal_url, separator)
+            journal_url = base_url + journal_endpoint
+            scrape_specific_journal(
+                journal_url, separator, article_list)
 
-        current_main_page_num += 1
+        current_page_num += 1
 
 
 def main():
     base_url = 'http://garuda.ristekdikti.go.id'
     separator = '?page='
+    article_list = []
 
-    scrape_main_page(base_url, separator)
+    scrape_main_page(base_url, separator, article_list)
+
+    # print article_list in a pretty manner
+    # pprint(article_list)
+
+    save_articles_csv(article_list)
 
 
 if __name__ == "__main__":
