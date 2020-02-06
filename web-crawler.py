@@ -2,6 +2,7 @@ import csv
 import re
 import requests
 from bs4 import BeautifulSoup
+from langdetect import detect
 from pprint import pprint
 
 
@@ -32,7 +33,6 @@ def scrape_specific_journal(url, separator, article_list):
 
     soup = get_soup(url)
     max_pages = get_max_pages(soup)
-
     article_title = soup.find(
         'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
 
@@ -43,9 +43,24 @@ def scrape_specific_journal(url, separator, article_list):
             article_abstract = xmp.string
 
             if article_abstract is None:
-                article_abstract = ''.encode('ascii', 'ignore')
-            else:
-                article_abstract = article_abstract.encode('ascii', 'ignore')
+                continue
+
+            article_abstract = article_abstract.encode('ascii', 'ignore')
+            is_period_exist = "." in article_abstract
+
+            if is_period_exist is False:
+                continue
+
+            article_abstract_first_sentence = article_abstract[:article_abstract.index(
+                ".")]
+
+            if article_abstract_first_sentence is None:
+                continue
+
+            article_abstract_language = detect(article_abstract_first_sentence)
+
+            if article_abstract_language != 'id':
+                continue
 
             article = [article_title, article_abstract]
             article_list.append(article)
