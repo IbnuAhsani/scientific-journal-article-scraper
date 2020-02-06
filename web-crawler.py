@@ -33,18 +33,22 @@ def scrape_specific_journal(url, separator, article_list):
 
     soup = get_soup(url)
     max_pages = get_max_pages(soup)
-    article_title = soup.find(
+    journal_title = soup.find(
         'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
 
     while current_page_num <= max_pages:
         soup = get_soup(url)
 
-        for xmp in soup.findAll('xmp', {'class': 'abstract-article'}):
-            article_abstract = xmp.string
+        for div in soup.findAll('div', {'class': 'article-item'}):
+            article_title_div = div.find('a', {'class': 'title-article'})
+            article_title = article_title_div.find('xmp').string
+            article_abstract = div.find(
+                'xmp', {'class': 'abstract-article'}).string
 
-            if article_abstract is None:
+            if article_abstract is None or article_title is None:
                 continue
 
+            article_title = article_title.encode('ascii', 'ignore')
             article_abstract = article_abstract.encode('ascii', 'ignore')
             is_period_exist = "." in article_abstract
 
@@ -62,7 +66,7 @@ def scrape_specific_journal(url, separator, article_list):
             if article_abstract_language != 'id':
                 continue
 
-            article = [article_title, article_abstract]
+            article = [journal_title, article_title, article_abstract]
             article_list.append(article)
 
         current_page_num += 1
