@@ -28,11 +28,22 @@ def save_articles_csv(article_list):
             writer.writerow(article)
 
 
+def set_new_url_endpoint(current_page_num, url, separator):
+    if current_page_num == 2:
+        url += separator + str(current_page_num)
+    else:
+        url = url.split(separator, 1)[0]
+        url += separator + str(current_page_num)
+
+    return url
+
+
 def scrape_specific_journal(url, separator, article_list):
     current_page_num = 1
 
     soup = get_soup(url)
     max_pages = get_max_pages(soup)
+
     journal_title = soup.find(
         'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
 
@@ -70,11 +81,8 @@ def scrape_specific_journal(url, separator, article_list):
 
         current_page_num += 1
 
-        if current_page_num == 2:
-            url += separator + str(current_page_num)
-        else:
-            url = url.split(separator, 1)[0]
-            url += separator + str(current_page_num)
+        url = set_new_url_endpoint(
+            current_page_num, url, separator)
 
 
 def scrape_main_page(base_url, separator, article_list):
@@ -95,11 +103,8 @@ def scrape_main_page(base_url, separator, article_list):
 
         current_page_num += 1
 
-        if current_page_num == 2:
-            main_page_url += separator + str(current_page_num)
-        else:
-            main_page_url = main_page_url.split(separator, 1)[0]
-            main_page_url += separator + str(current_page_num)
+        main_page_url = set_new_url_endpoint(
+            current_page_num, main_page_url, separator)
 
 
 def main():
