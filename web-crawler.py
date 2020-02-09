@@ -97,6 +97,8 @@ def scrape_specific_journal(url, separator, article_list, journal_id):
         url = set_new_url_endpoint(
             current_page_num, url, separator)
 
+    print('| Scraped journal ' + journal_title)
+
     return is_journal_scraped
 
 
@@ -110,6 +112,10 @@ def scrape_main_page(base_url, separator, article_list):
     max_pages = get_max_pages(soup)
 
     while current_page_num <= max_pages:
+        print('+--------------------------------------------------------------+')  # \t\t
+        print('| Scraping page ' + main_page_url + '\t|')
+        print('+--------------------------------------------------------------+')  # \t\t
+
         soup = get_soup(main_page_url)
 
         for a in soup.findAll('a', {'class': 'title-journal'}):
@@ -141,10 +147,12 @@ def main():
 
     is_main_page_scraped = scrape_main_page(base_url, separator, article_list)
 
+    print('+--------------------------------------------------------------+')  # \t\t
+
     if is_main_page_scraped is True:
-        print('Web pages have been scraped')
+        print('| Web pages have been scraped')
     else:
-        print('No web page has been scraped')
+        print('| No web page has been scraped')
 
     # print article_list in a pretty manner
     # pprint(article_list)
@@ -152,9 +160,11 @@ def main():
     is_articles_saved = save_articles_csv(article_list)
 
     if is_articles_saved is True:
-        print('Articles have been saved as .csv')
+        print('| Articles have been saved as .csv')
     else:
-        print('Failed to save articles as .csv')
+        print('| Failed to save articles as .csv')
+
+    print('+--------------------------------------------------------------+')  # \t\t
 
 
 if __name__ == "__main__":
