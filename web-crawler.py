@@ -38,7 +38,8 @@ def set_new_url_endpoint(current_page_num, url, separator):
     return url
 
 
-def scrape_specific_journal(url, separator, article_list):
+def scrape_specific_journal(url, separator, article_list, journal_id):
+    is_journal_scraped = False
     current_page_num = 1
 
     soup = get_soup(url)
@@ -77,17 +78,23 @@ def scrape_specific_journal(url, separator, article_list):
                 continue
 
             article_abstract = article_abstract.replace("\n", " ")
-            article = [journal_title, article_title, article_abstract]
+            article = [journal_id, journal_title,
+                       article_title, article_abstract]
 
             article_list.append(article)
+            is_journal_scraped = True
 
         current_page_num += 1
 
         url = set_new_url_endpoint(
             current_page_num, url, separator)
 
+    return is_journal_scraped
+
 
 def scrape_main_page(base_url, separator, article_list):
+    is_main_page_scraped = False
+    journal_id = 1
     current_page_num = 1
     main_page_url = base_url + '/journal'
 
@@ -100,24 +107,36 @@ def scrape_main_page(base_url, separator, article_list):
         for a in soup.findAll('a', {'class': 'title-journal'}):
             journal_endpoint = a.get('href')
             journal_page_url = base_url + journal_endpoint
-            scrape_specific_journal(
-                journal_page_url, separator, article_list)
+            is_journal_scraped = scrape_specific_journal(
+                journal_page_url, separator, article_list, journal_id)
+
+            if is_journal_scraped is True:
+                is_main_page_scraped = True
+                journal_id += 1
 
         current_page_num += 1
 
         main_page_url = set_new_url_endpoint(
             current_page_num, main_page_url, separator)
 
+    return is_main_page_scraped
+
 
 def main():
     base_url = 'http://garuda.ristekdikti.go.id'
     separator = '?page='
-    csv_header = ['JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
+    csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE',
+                  'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
     article_list = []
 
     article_list.append(csv_header)
 
-    scrape_main_page(base_url, separator, article_list)
+    is_main_page_scraped = scrape_main_page(base_url, separator, article_list)
+
+    if is_main_page_scraped is True:
+        print('Page has been scraped')
+    else:
+        print('No page has been scraped')
 
     # print article_list in a pretty manner
     # pprint(article_list)
