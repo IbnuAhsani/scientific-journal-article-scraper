@@ -22,10 +22,18 @@ def get_soup(url):
 
 
 def save_articles_csv(article_list):
-    with open("output.csv", "w") as csvfile:
-        writer = csv.writer(csvfile)
-        for article in article_list:
-            writer.writerow(article)
+    is_articles_saved = True
+
+    try:
+        with open("output.csv", "w") as csvfile:
+            writer = csv.writer(csvfile)
+
+            for article in article_list:
+                writer.writerow(article)
+    except:
+        is_articles_saved = False
+
+    return is_articles_saved
 
 
 def set_new_url_endpoint(current_page_num, url, separator):
@@ -134,14 +142,19 @@ def main():
     is_main_page_scraped = scrape_main_page(base_url, separator, article_list)
 
     if is_main_page_scraped is True:
-        print('Page has been scraped')
+        print('Web pages have been scraped')
     else:
-        print('No page has been scraped')
+        print('No web page has been scraped')
 
     # print article_list in a pretty manner
     # pprint(article_list)
 
-    save_articles_csv(article_list)
+    is_articles_saved = save_articles_csv(article_list)
+
+    if is_articles_saved is True:
+        print('Articles have been saved as .csv')
+    else:
+        print('Failed to save articles as .csv')
 
 
 if __name__ == "__main__":
