@@ -112,7 +112,10 @@ def scrape_main_page(base_url, separator, article_list):
 def main():
     base_url = 'http://garuda.ristekdikti.go.id'
     separator = '?page='
+    csv_header = ['JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
     article_list = []
+
+    article_list.append(csv_header)
 
     scrape_main_page(base_url, separator, article_list)
 
