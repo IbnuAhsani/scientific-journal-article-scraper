@@ -76,7 +76,9 @@ def scrape_specific_journal(url, separator, article_list):
             if is_period_exist is False:
                 continue
 
+            article_abstract = article_abstract.replace("\n", " ")
             article = [journal_title, article_title, article_abstract]
+
             article_list.append(article)
 
         current_page_num += 1
