@@ -46,7 +46,7 @@ def set_new_url_endpoint(current_page_num, url, separator):
     return url
 
 
-def scrape_specific_journal(url, separator, article_list, journal_id):
+def scrape_specific_journal(url, separator, article_list, journal_id, article_id):
     is_journal_scraped = False
     current_page_num = 1
 
@@ -86,8 +86,10 @@ def scrape_specific_journal(url, separator, article_list, journal_id):
                 continue
 
             article_abstract = article_abstract.replace("\n", " ")
-            article = [journal_id, journal_title,
+            article = [journal_id, journal_title, article_id,
                        article_title, article_abstract]
+
+            article_id += 1
 
             article_list.append(article)
             is_journal_scraped = True
@@ -99,12 +101,13 @@ def scrape_specific_journal(url, separator, article_list, journal_id):
 
     print('| Scraped journal ' + journal_title)
 
-    return is_journal_scraped
+    return is_journal_scraped, article_id
 
 
 def scrape_main_page(base_url, separator, article_list):
     is_main_page_scraped = False
     journal_id = 1
+    article_id = 1
     current_page_num = 1
     main_page_url = base_url + '/journal'
 
@@ -121,8 +124,8 @@ def scrape_main_page(base_url, separator, article_list):
         for a in soup.findAll('a', {'class': 'title-journal'}):
             journal_endpoint = a.get('href')
             journal_page_url = base_url + journal_endpoint
-            is_journal_scraped = scrape_specific_journal(
-                journal_page_url, separator, article_list, journal_id)
+            is_journal_scraped, article_id = scrape_specific_journal(
+                journal_page_url, separator, article_list, journal_id, article_id)
 
             if is_journal_scraped is True:
                 is_main_page_scraped = True
@@ -139,7 +142,7 @@ def scrape_main_page(base_url, separator, article_list):
 def main():
     base_url = 'http://garuda.ristekdikti.go.id'
     separator = '?page='
-    csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE',
+    csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE', 'ARTICLE_ID',
                   'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
     article_list = []
 
