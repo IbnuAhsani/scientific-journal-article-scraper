@@ -111,8 +111,8 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
 
     soup = get_soup(main_page_url)
 
-    while current_page_num <= max_pages:
-        if current_page_num != 1:
+    while current_page_num <= end_page:
+        if start_page != 1:
             main_page_url = set_new_url_endpoint(
                 current_page_num, main_page_url, separator)
 
