@@ -104,9 +104,10 @@ def scrape_specific_journal(url, separator, article_list, journal_id, article_id
     return is_journal_scraped, article_id
 
 
-def scrape_main_page(journal_id, article_id, current_page_num, max_pages, base_url, separator, article_list):
+def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, separator, article_list):
     is_main_page_scraped = False
     main_page_url = base_url + '/journal'
+    current_page_num = start_page
 
     soup = get_soup(main_page_url)
 
@@ -140,10 +141,10 @@ def scrape_main_page(journal_id, article_id, current_page_num, max_pages, base_u
 
 
 def main():
-    journal_id = 45
-    article_id = 2099
-    current_page_num = 7
-    max_pages = 8
+    first_journal_id = 1
+    first_article_id = 1
+    start_page = 1
+    end_page = 1
     base_url = 'http://garuda.ristekdikti.go.id'
     separator = '?page='
     csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE', 'ARTICLE_ID',
@@ -153,7 +154,7 @@ def main():
     article_list.append(csv_header)
 
     is_main_page_scraped = scrape_main_page(
-        journal_id, article_id, current_page_num, max_pages, base_url, separator, article_list)
+        first_journal_id, first_article_id, start_page, end_page, base_url, separator, article_list)
 
     print('+--------------------------------------------------------------+')  # \t\t
 
