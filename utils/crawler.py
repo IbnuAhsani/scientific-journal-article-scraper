@@ -1,24 +1,8 @@
 import csv
 import re
-import requests
-from bs4 import BeautifulSoup
+import text_processing as tp
 from langdetect import detect
 from pprint import pprint
-
-
-def get_max_pages(soup):
-    pagination_info_string = soup.find(
-        'p', {'class': 'pagination-info'}).string.replace(" ", "")
-    max_pages = int(re.search('of(.*)\\|', pagination_info_string).group(1))
-
-    return max_pages
-
-
-def get_soup(url):
-    html_page_source_code_string = requests.get(url).text
-    soup = BeautifulSoup(html_page_source_code_string, 'html.parser')
-
-    return soup
 
 
 def save_articles_csv(article_list):
@@ -36,28 +20,20 @@ def save_articles_csv(article_list):
     return is_articles_saved
 
 
-def set_new_url_endpoint(current_page_num, url, separator):
-    if current_page_num == 2:
-        url += separator + str(current_page_num)
-    else:
-        url = url.split(separator, 1)[0]
-        url += separator + str(current_page_num)
-
-    return url
-
-
 def scrape_specific_journal(url, separator, article_list, journal_id, article_id):
     is_journal_scraped = False
     current_page_num = 1
 
-    soup = get_soup(url)
-    max_pages = get_max_pages(soup)
+    soup = tp.get_soup(url)
+    pagination_info_string = soup.find(
+        'p', {'class': 'pagination-info'}).string.replace(" ", "")
+    max_pages = int(re.search('of(.*)\\|', pagination_info_string).group(1))
 
     journal_title = soup.find(
         'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
 
     while current_page_num <= max_pages:
-        soup = get_soup(url)
+        soup = tp.get_soup(url)
 
         for div in soup.findAll('div', {'class': 'article-item'}):
             article_title_div = div.find('a', {'class': 'title-article'})
@@ -96,7 +72,7 @@ def scrape_specific_journal(url, separator, article_list, journal_id, article_id
 
         current_page_num += 1
 
-        url = set_new_url_endpoint(
+        url = tp.set_new_url_endpoint(
             current_page_num, url, separator)
 
     print('| Scraped journal ' + journal_title)
@@ -109,18 +85,18 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
     main_page_url = base_url + '/journal'
     current_page_num = start_page
 
-    soup = get_soup(main_page_url)
+    soup = tp.get_soup(main_page_url)
 
     while current_page_num <= end_page:
         if start_page != 1:
-            main_page_url = set_new_url_endpoint(
+            main_page_url = tp.set_new_url_endpoint(
                 current_page_num, main_page_url, separator)
 
         print('+--------------------------------------------------------------+')  # \t\t
         print('| Scraping page ' + main_page_url + '\t|')
         print('+--------------------------------------------------------------+')  # \t\t
 
-        soup = get_soup(main_page_url)
+        soup = tp.get_soup(main_page_url)
 
         for a in soup.findAll('a', {'class': 'title-journal'}):
             journal_endpoint = a.get('href')
@@ -134,7 +110,7 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
 
         current_page_num += 1
 
-        main_page_url = set_new_url_endpoint(
+        main_page_url = tp.set_new_url_endpoint(
             current_page_num, main_page_url, separator)
 
     return is_main_page_scraped
