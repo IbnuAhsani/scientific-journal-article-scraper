@@ -1,23 +1,7 @@
-import csv
 import re
 import text_processing as tp
 from langdetect import detect
 from pprint import pprint
-
-
-def save_articles_csv(article_list):
-    is_articles_saved = True
-
-    try:
-        with open("output.csv", "w") as csvfile:
-            writer = csv.writer(csvfile)
-
-            for article in article_list:
-                writer.writerow(article)
-    except:
-        is_articles_saved = False
-
-    return is_articles_saved
 
 
 def scrape_specific_journal(url, separator, article_list, journal_id, article_id):
