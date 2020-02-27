@@ -27,7 +27,9 @@ def main():
     # print article_list in a pretty manner
     # pprint(article_list)
 
-    is_articles_saved = fs.save_articles_csv(article_list)
+    save_path = "./output/output.csv"
+
+    is_articles_saved = fs.save_articles_csv(save_path, article_list)
 
     if is_articles_saved is True:
         print('| Articles have been saved as .csv')
