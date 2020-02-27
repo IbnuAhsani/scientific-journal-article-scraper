@@ -4,8 +4,8 @@ from langdetect import detect
 from pprint import pprint
 
 
-def scrape_specific_journal(url, separator, article_list, journal_id, article_id):
-    is_journal_scraped = False
+def crawl_specific_journal(url, separator, article_list, journal_id, article_id):
+    is_journal_crawled = False
     current_page_num = 1
 
     soup = tp.get_soup(url)
@@ -52,20 +52,20 @@ def scrape_specific_journal(url, separator, article_list, journal_id, article_id
             article_id += 1
 
             article_list.append(article)
-            is_journal_scraped = True
+            is_journal_crawled = True
 
         current_page_num += 1
 
         url = tp.set_new_url_endpoint(
             current_page_num, url, separator)
 
-    print('| Scraped journal ' + journal_title)
+    print('| crawled journal ' + journal_title)
 
-    return is_journal_scraped, article_id
+    return is_journal_crawled, article_id
 
 
-def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, separator, article_list):
-    is_main_page_scraped = False
+def crawl_main_page(journal_id, article_id, start_page, end_page, base_url, separator, article_list):
+    is_main_page_crawled = False
     main_page_url = base_url + '/journal'
     current_page_num = start_page
 
@@ -77,7 +77,7 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
                 current_page_num, main_page_url, separator)
 
         print('+--------------------------------------------------------------+')  # \t\t
-        print('| Scraping page ' + main_page_url + '\t|')
+        print('| crawling page ' + main_page_url + '\t|')
         print('+--------------------------------------------------------------+')  # \t\t
 
         soup = tp.get_soup(main_page_url)
@@ -85,11 +85,11 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
         for a in soup.findAll('a', {'class': 'title-journal'}):
             journal_endpoint = a.get('href')
             journal_page_url = base_url + journal_endpoint
-            is_journal_scraped, article_id = scrape_specific_journal(
+            is_journal_crawled, article_id = crawl_specific_journal(
                 journal_page_url, separator, article_list, journal_id, article_id)
 
-            if is_journal_scraped is True:
-                is_main_page_scraped = True
+            if is_journal_crawled is True:
+                is_main_page_crawled = True
                 journal_id += 1
 
         current_page_num += 1
@@ -97,4 +97,4 @@ def scrape_main_page(journal_id, article_id, start_page, end_page, base_url, sep
         main_page_url = tp.set_new_url_endpoint(
             current_page_num, main_page_url, separator)
 
-    return is_main_page_scraped
+    return is_main_page_crawled

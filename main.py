@@ -14,15 +14,15 @@ def main():
 
     article_list.append(csv_header)
 
-    is_main_page_scraped = crawler.scrape_main_page(
+    is_main_page_crawled = crawler.crawl_main_page(
         first_journal_id, first_article_id, start_page, end_page, base_url, separator, article_list)
 
     print('+--------------------------------------------------------------+')  # \t\t
 
-    if is_main_page_scraped is True:
-        print('| Web pages have been scraped')
+    if is_main_page_crawled is True:
+        print('| web pages have been crawled')
     else:
-        print('| No web page has been scraped')
+        print('| no web page has been crawled')
 
     # print article_list in a pretty manner
     # pprint(article_list)
@@ -32,9 +32,9 @@ def main():
     is_articles_saved = fs.save_articles_csv(save_path, article_list)
 
     if is_articles_saved is True:
-        print('| Articles have been saved as .csv')
+        print('| articles have been saved as .csv')
     else:
-        print('| Failed to save articles as .csv')
+        print('| failed to save articles as .csv')
 
     print('+--------------------------------------------------------------+')  # \t\t
 
