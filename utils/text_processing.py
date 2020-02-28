@@ -9,11 +9,11 @@ def get_soup(url):
     return soup
 
 
-def set_new_url_endpoint(current_page_num, url, separator):
+def set_new_url_endpoint(current_page_num, url, separator, sort_by):
     if current_page_num == 2:
-        url += separator + str(current_page_num)
+        url += separator + str(current_page_num) + sort_by
     else:
         url = url.split(separator, 1)[0]
-        url += separator + str(current_page_num)
+        url += separator + str(current_page_num) + sort_by
 
     return url
