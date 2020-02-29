@@ -2,21 +2,33 @@ from utils import crawler, file_system as fs
 
 
 def main():
-    first_journal_id = 5
-    first_article_id = 147
-    start_page = 3
-    end_page = 4
+    first_journal_id = 1
+    first_article_id = 1
+    start_page = 1
+    end_page = 2
     base_url = 'http://sinta2.ristekdikti.go.id'
+    journal_url = ''
     separator = '?page='
     sort_by = '&sort=impact'
+
+    web_crawler = crawler.Crawler(
+        first_journal_id,
+        first_article_id,
+        start_page,
+        end_page,
+        base_url,
+        journal_url,
+        separator,
+        sort_by,
+    )
+
     csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE', 'ARTICLE_ID',
                   'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
     article_list = []
 
     article_list.append(csv_header)
 
-    is_main_page_crawled = crawler.crawl_main_page(
-        first_journal_id, first_article_id, start_page, end_page, base_url, separator, sort_by, article_list)
+    is_main_page_crawled = web_crawler.crawl_main_page(article_list)
 
     print('+--------------------------------------------------------------+')  # \t\t
 
