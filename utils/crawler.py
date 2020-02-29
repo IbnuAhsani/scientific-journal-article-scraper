@@ -60,18 +60,26 @@ class Crawler:
                         article_title)
                     article_abstract_sentences = article_abstract.split('.')
                     article_abstract_first_sentence = article_abstract_sentences[1]
+                    article_abstract_second_sentence = article_abstract_sentences[2]
                     article_abstract_last_sentence = article_abstract_sentences[-2]
+                    article_abstract_second_last_sentence = article_abstract_sentences[-3]
 
                     article_abstract_first_sentence_language = detect(
                         article_abstract_first_sentence)
+                    article_abstract_second_sentence_language = detect(
+                        article_abstract_second_sentence)
                     article_abstract_last_sentence_language = detect(
                         article_abstract_last_sentence)
+                    article_abstract_second_last_sentence_language = detect(
+                        article_abstract_second_last_sentence)
                 except:
                     article_title_language = 'error'
                     article_abstract_first_sentence_language = 'error'
                     article_abstract_last_sentence_language = 'error'
 
-                if article_title_language != 'id' or article_abstract_first_sentence_language != 'id' or article_abstract_last_sentence_language != 'id':
+                if (article_title_language != 'id' or article_abstract_first_sentence_language != 'id' or
+                        article_abstract_second_sentence_language != 'id' or article_abstract_last_sentence_language != 'id' or
+                        article_abstract_second_last_sentence_language != 'id'):
                     continue
 
                 article = [self.journal_id, journal_title, self.article_id,
