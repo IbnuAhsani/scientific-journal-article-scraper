@@ -85,7 +85,10 @@ class Crawler:
                 article = [self.journal_id, journal_title, self.article_id,
                            article_title, article_abstract]
 
-                self.article_id += 1
+                is_article_duplicate = article in article_list
+
+                if is_article_duplicate is True:
+                    continue
 
                 article_list.append(article)
                 is_journal_crawled = True
