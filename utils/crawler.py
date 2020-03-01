@@ -6,9 +6,7 @@ from pprint import pprint
 
 class Crawler:
 
-    def __init__(self, journal_id, article_id, start_page, end_page, base_url, journal_url, separator, sort_by):
-        self.journal_id = journal_id
-        self.article_id = article_id
+    def __init__(self, start_page, end_page, base_url, journal_url, separator, sort_by):
         self.start_page = start_page
         self.end_page = end_page
         self.base_url = base_url
@@ -25,7 +23,7 @@ class Crawler:
         article_item = soup.find('div', {'class': 'article-item'})
 
         if article_item is None:
-            return is_journal_crawled, self.article_id
+            return is_journal_crawled
 
         pagination_info_string = soup.find(
             'p', {'class': 'pagination-info'}).string.replace(" ", "")
@@ -82,7 +80,7 @@ class Crawler:
                         article_abstract_second_last_sentence_language != 'id'):
                     continue
 
-                article = [self.journal_id, journal_title, self.article_id,
+                article = [0, journal_title, 0,
                            article_title, article_abstract]
 
                 is_article_duplicate = article in article_list
@@ -104,7 +102,7 @@ class Crawler:
         if is_journal_crawled is True:
             print('| crawled journal ' + journal_title)
 
-        return is_journal_crawled, self.article_id
+        return is_journal_crawled
 
     def crawl_main_page(self, article_list):
 
@@ -135,12 +133,10 @@ class Crawler:
 
                 journal_page_url = a_tag['href']
                 self.journal_url = journal_page_url
-                is_journal_crawled, self.article_id = self.crawl_specific_journal(
-                    article_list)
+                is_journal_crawled = self.crawl_specific_journal(article_list)
 
                 if is_journal_crawled is True:
                     is_main_page_crawled = True
-                    self.journal_id += 1
 
             current_page_num += 1
 

@@ -2,18 +2,14 @@ from utils import crawler, file_system as fs
 
 
 def main():
-    first_journal_id = 1
-    first_article_id = 1
-    start_page = 1
-    end_page = 2
+    start_page = 16
+    end_page = 20
     base_url = 'http://sinta2.ristekdikti.go.id'
     journal_url = ''
     separator = '?page='
     sort_by = '&sort=impact'
 
     web_crawler = crawler.Crawler(
-        first_journal_id,
-        first_article_id,
         start_page,
         end_page,
         base_url,
