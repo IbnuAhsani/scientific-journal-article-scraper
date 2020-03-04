@@ -17,20 +17,20 @@ def main():
     article_list.append(csv_header)
 
     for i in range(len(csv_data_list) - 1):
-        this_row = csv_data_list[i]
+        current_row = csv_data_list[i]
         next_row = csv_data_list[i + 1]
 
-        this_journal_title, this_article_title, this_article_abstract = itemgetter(
-            'JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(this_row)
+        current_journal_title, current_article_title, current_article_abstract = itemgetter(
+            'JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(current_row)
         next_journal_title = itemgetter('JOURNAL_TITLE')(next_row)
 
-        if this_journal_title != next_journal_title:
-            journal_id += 1
-
-        article = [journal_id, this_journal_title, article_id,
-                   this_article_title, this_article_abstract]
+        article = [journal_id, current_journal_title, article_id,
+                   current_article_title, current_article_abstract]
 
         article_list.append(article)
+
+        if next_journal_title != current_journal_title:
+            journal_id += 1
 
         article_id += 1
 
