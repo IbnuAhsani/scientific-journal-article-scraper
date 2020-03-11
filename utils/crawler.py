@@ -6,9 +6,10 @@ from pprint import pprint
 
 class Crawler:
 
-    def __init__(self, start_page, end_page, base_url, journal_url, separator, sort_by):
+    def __init__(self, start_page, end_page, page_limit, base_url, journal_url, separator, sort_by):
         self.start_page = start_page
         self.end_page = end_page
+        self.page_limit = page_limit
         self.base_url = base_url
         self.journal_url = journal_url
         self.separator = separator
@@ -90,7 +91,7 @@ class Crawler:
                 article_list.append(article)
                 is_journal_crawled = True
 
-            if current_page_num > 100:
+            if current_page_num >= self.page_limit:
                 break
 
             current_page_num += 1

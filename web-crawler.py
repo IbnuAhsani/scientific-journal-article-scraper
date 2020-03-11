@@ -1,9 +1,12 @@
 from utils import crawler, file_system as fs
 
+SAVE_PATH = "./output/output.csv"
+
 
 def main():
     start_page = 16
     end_page = 20
+    page_limit = 2
     base_url = 'http://sinta2.ristekdikti.go.id'
     journal_url = ''
     separator = '?page='
@@ -12,6 +15,7 @@ def main():
     web_crawler = crawler.Crawler(
         start_page,
         end_page,
+        page_limit,
         base_url,
         journal_url,
         separator,
@@ -32,12 +36,7 @@ def main():
     else:
         print('| no web page has been crawled')
 
-    # print article_list in a pretty manner
-    # pprint(article_list)
-
-    save_path = "./output/output.csv"
-
-    is_articles_saved = fs.save_articles_csv(save_path, article_list)
+    is_articles_saved = fs.save_articles_csv(SAVE_PATH, article_list)
 
     if is_articles_saved is True:
         print('| articles have been saved as .csv')
