@@ -18,8 +18,7 @@ def main():
         sort_by,
     )
 
-    csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE', 'ARTICLE_ID',
-                  'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
+    csv_header = ['JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT']
     article_list = []
 
     article_list.append(csv_header)

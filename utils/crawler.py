@@ -80,8 +80,7 @@ class Crawler:
                         article_abstract_second_last_sentence_language != 'id'):
                     continue
 
-                article = [0, journal_title, 0,
-                           article_title, article_abstract]
+                article = [journal_title, article_title, article_abstract]
 
                 is_article_duplicate = article in article_list
 
