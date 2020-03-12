@@ -34,6 +34,7 @@ class Crawler:
             'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
 
         while current_page_num <= max_pages:
+            print(self.journal_url)
             soup = tp.get_soup(self.journal_url)
 
             for div in soup.findAll('div', {'class': 'article-item'}):
@@ -74,7 +75,9 @@ class Crawler:
                 except:
                     article_title_language = 'error'
                     article_abstract_first_sentence_language = 'error'
+                    article_abstract_second_sentence_language = 'error'
                     article_abstract_last_sentence_language = 'error'
+                    article_abstract_second_last_sentence_language = 'error'
 
                 if (article_title_language != 'id' or article_abstract_first_sentence_language != 'id' or
                         article_abstract_second_sentence_language != 'id' or article_abstract_last_sentence_language != 'id' or
@@ -91,7 +94,8 @@ class Crawler:
                 article_list.append(article)
                 is_journal_crawled = True
 
-            if current_page_num >= self.page_limit:
+            if self.page_limit != 0 and current_page_num >= self.page_limit:
+                print('page limit is trigerred')
                 break
 
             current_page_num += 1
