@@ -1,20 +1,29 @@
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
 from time import sleep
 
 
 def get_soup(url):
     is_request_successful = False
+    session = requests.Session()
 
     while is_request_successful is False:
         try:
-            html_page_source_code_string = requests.get(url).text
+            retry = Retry(total=500, connect=3, backoff_factor=0.7)
+            adapter = HTTPAdapter(max_retries=retry)
+
+            session.mount('http://', adapter)
+            session.mount('https://', adapter)
+
+            html_page_source_code_string = session.get(url).text
             is_request_successful = True
             break
         except:
             print('connection refused by the server')
-            print('taking a break for 5 seconds')
-            sleep(5)
+            print('taking a break for 3 seconds')
+            sleep(3)
             continue
 
     soup = BeautifulSoup(html_page_source_code_string, 'html.parser')
