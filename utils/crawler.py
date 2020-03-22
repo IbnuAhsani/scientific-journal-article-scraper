@@ -95,7 +95,6 @@ class Crawler:
                 is_journal_crawled = True
 
             if self.page_limit != 0 and current_page_num >= self.page_limit:
-                print('page limit is trigerred')
                 break
 
             current_page_num += 1
