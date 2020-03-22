@@ -7,8 +7,8 @@ SAVE_PATH = "./output/output-indexed.csv"
 
 def main():
     csv_data_list = fs.read_csv_list(DATASET_DIR)
-    article_id = 1
-    journal_id = 1
+    article_id = 0
+    journal_id = 0
     article_list = []
 
     csv_header = ['JOURNAL_ID', 'JOURNAL_TITLE', 'ARTICLE_ID',
