@@ -11,7 +11,7 @@ def get_soup(url):
 
     while is_request_successful is False:
         try:
-            retry = Retry(total=500, connect=3, backoff_factor=0.7)
+            retry = Retry(total=50, connect=3, backoff_factor=0.25)
             adapter = HTTPAdapter(max_retries=retry)
 
             session.mount('http://', adapter)
