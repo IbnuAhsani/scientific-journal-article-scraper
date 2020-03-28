@@ -116,6 +116,8 @@ class Crawler:
             # \t\t
             print('+--------------------------------------------------------------+')
 
+            url_list = list()
+
             for span in soup.findAll('span', {'class': 'index-val-small'}):
                 is_journal_crawled = False
                 a_tag = span.find('a', href=True)
@@ -124,7 +126,16 @@ class Crawler:
                     continue
 
                 journal_page_url = a_tag['href']
-                self.journal_url = journal_page_url
+                url_list.append(journal_page_url)
+
+            unique_url_list = list()
+
+            for x in url_list:
+                if x not in unique_url_list:
+                    unique_url_list.append(x)
+
+            for url in unique_url_list:
+                self.journal_url = url
                 is_journal_crawled = self.crawl_specific_journal(article_list)
 
                 if is_journal_crawled is True:
