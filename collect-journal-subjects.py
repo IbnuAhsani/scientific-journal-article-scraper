@@ -1,11 +1,12 @@
+import csv
 from utils import subject_crawler, file_system as fs
 
 SAVE_PATH = "./output/journal-subject.csv"
 
 
 def main():
-    start_page = 1
-    end_page = 1
+    start_page = 2
+    end_page = 2
     page_limit = 2
     base_url = 'http://sinta2.ristekdikti.go.id'
     journal_url = ''
@@ -22,10 +23,16 @@ def main():
         sort_by,
     )
 
-    csv_header = ['JOURNAL_TITLE', 'JOURNAL_SUBJECTS']
-    journal_list = []
+    with open(SAVE_PATH) as f:
+        reader = csv.reader(f)
+        csv_data = list(reader)
 
-    journal_list.append(csv_header)
+    journal_list = []
+    csv_data_length = len(csv_data)
+
+    if csv_data_length == 0:
+        csv_header = ['JOURNAL_TITLE', 'JOURNAL_SUBJECTS']
+        journal_list.append(csv_header)
 
     is_main_page_crawled = web_crawler.crawl_main_page(journal_list)
 
@@ -36,7 +43,12 @@ def main():
     else:
         print('| no web page has been crawled')
 
-    is_articles_saved = fs.save_articles_csv(SAVE_PATH, journal_list)
+    if csv_data_length == 0:
+        is_articles_saved = fs.save_articles_csv(SAVE_PATH, journal_list)
+    else:
+        for journal in journal_list:
+            csv_data.append(journal)
+        is_articles_saved = fs.save_articles_csv(SAVE_PATH, csv_data)
 
     if is_articles_saved is True:
         print('| articles have been saved as .csv')
