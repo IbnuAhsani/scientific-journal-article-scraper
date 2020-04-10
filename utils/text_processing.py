@@ -22,8 +22,8 @@ def get_soup(url):
             break
         except:
             print('connection refused by the server')
-            print('taking a break for 3 seconds')
-            sleep(3)
+            print('taking a break for 0.5 seconds')
+            sleep(0.5)
             continue
 
     soup = BeautifulSoup(html_page_source_code_string, 'html.parser')
