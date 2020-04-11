@@ -5,9 +5,9 @@ SAVE_PATH = "./output/journal-subject.csv"
 
 
 def main():
-    start_page = 2
-    end_page = 2
-    page_limit = 2
+    start_page = 101
+    end_page = 150
+    page_limit = 0
     base_url = 'http://sinta2.ristekdikti.go.id'
     journal_url = ''
     separator = '?page='
