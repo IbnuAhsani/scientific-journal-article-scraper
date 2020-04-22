@@ -2,26 +2,40 @@
 dataset-count
 =============
 
-total count: 160472 row
+- total count: 160472 row
 
-file dataset-...-0-100.csv:     54103 row
-file dataset-...-101-200.csv:   37455 row
-file dataset-...-201-300.csv:   33297 row
-file dataset-...-301-400.csv:   22925 row
-file dataset-...-401-461.csv:   12692 row
+- file dataset-...-0-100.csv:     54103 row
+- file dataset-...-101-200.csv:   37455 row
+- file dataset-...-201-300.csv:   33297 row
+- file dataset-...-301-400.csv:   22925 row
+- file dataset-...-401-461.csv:   12692 row
 
-S1: 1452 data,  row 2 - 1454, file dataset-...-0-100.csv
+- S1: 1452 data,  row 2 - 1454, file dataset-...-0-100.csv
 
-S2: 45373 data, row 1455 - 46828, file dataset-...-0-100.csv
+- S2: 45373 data, row 1455 - 46828, file dataset-...-0-100.csv
 
-S3: 36678 data, row 46829 - 54104, file dataset-...-0-100.csv
+- S3: 36678 data, row 46829 - 54104, file dataset-...-0-100.csv
                 row 2 - 29405, file dataset-...-101-200.csv
 
-S4: 47282 data  row 29406 - 37546, file dataset-...-101-200.csv
+- S4: 47282 data  row 29406 - 37546, file dataset-...-101-200.csv
                 row 2 - 33298, file dataset-...-201-300.csv
                 row 2 - 5848, file dataset-...-301-400.csv
 
-S5: 25807 data  row 5849 - 22926, file dataset-...-301-400.csv
+- S5: 25807 data  row 5849 - 22926, file dataset-...-301-400.csv
                 row 2 - 8732, file dataset-...-401-461.csv
 
-S6: 3906 data   row 8733 - 12693, file dataset-...-401-461.csv
+- S6: 3906 data   row 8733 - 12693, file dataset-...-401-461.csv
+
+
+=========================
+cs-and-math-journal-count
+=========================
+
+- total: 22502 data, 304 classes
+
+- journal with:
+    + more than 150 data; 7406 data, 31 classes
+    + more than 180 data; 5373 data, 18 classes
+    + more than 200 data; 4790 data, 15 classes
+    + more than 300 data; 2885 data, 7 classes
+    + more than 500 data; 1107 data, 2 classes
