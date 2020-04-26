@@ -36,30 +36,44 @@ class SubjectCrawler:
 
         journal_subjects_text = journal_subjects_tag.text.strip().encode('ascii', 'ignore')
         journal_subjects = journal_subjects_text.splitlines(False)
-        searched_subjects = ['Computer Science & IT', 'Mathematics']
-        is_subjects_included = False
+        journal_subjects_concat = ''
 
-        for searched_subject in searched_subjects:
-            if searched_subject in journal_subjects:
-                is_subjects_included = True
-                break
+        for journal_subject in journal_subjects:
+            if journal_subject == journal_subjects[-1]:
+                journal_subjects_concat += journal_subject
+            else:
+                journal_subjects_concat += journal_subject + ', '
 
-        if is_subjects_included is True:
-            journal_subjects_concat = ''
+        journal = [journal_title, journal_subjects_concat]
+        article_list.append(journal)
 
-            for journal_subject in journal_subjects:
-                if journal_subject == journal_subjects[-1]:
-                    journal_subjects_concat += journal_subject
-                else:
-                    journal_subjects_concat += journal_subject + ', '
+        is_journal_crawled = True
+        print('| crawled journal ' + journal_title)
 
-            journal = [journal_title, journal_subjects_concat]
-            article_list.append(journal)
+        # searched_subjects = ['Computer Science & IT', 'Mathematics']
+        # is_subjects_included = False
 
-            is_journal_crawled = True
-            print('| crawled journal ' + journal_title)
-        else:
-            print('| journal ' + journal_title + ' was not crawled')
+        # for searched_subject in searched_subjects:
+        #     if searched_subject in journal_subjects:
+        #         is_subjects_included = True
+        #         break
+
+        # if is_subjects_included is True:
+        #     journal_subjects_concat = ''
+
+        #     for journal_subject in journal_subjects:
+        #         if journal_subject == journal_subjects[-1]:
+        #             journal_subjects_concat += journal_subject
+        #         else:
+        #             journal_subjects_concat += journal_subject + ', '
+
+        #     journal = [journal_title, journal_subjects_concat]
+        #     article_list.append(journal)
+
+        #     is_journal_crawled = True
+        #     print('| crawled journal ' + journal_title)
+        # else:
+        #     print('| journal ' + journal_title + ' was not crawled')
 
         return is_journal_crawled
 
