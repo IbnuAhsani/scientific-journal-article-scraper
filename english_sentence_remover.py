@@ -1,9 +1,10 @@
+import os
 from operator import itemgetter
 from utils import file_system as fs
 from langdetect import detect
 
 
-DATASET_DIR = "./output/dataset-master-sinta-bilingual.csv"
+DATASET_DIR = "./output/dataset-test.csv"
 SAVE_PATH = "./output/output-english-sentence-removed.csv"
 
 
@@ -57,6 +58,10 @@ def main():
         article_list.append(article)
 
     fs.save_articles_csv(SAVE_PATH, article_list)
+
+    duration = 0.5
+    freq = 440
+    os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
 
 
 if __name__ == '__main__':
