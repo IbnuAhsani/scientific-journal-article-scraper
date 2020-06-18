@@ -1,7 +1,7 @@
 from operator import itemgetter
 from utils import file_system as fs
 
-DATASET_DIR = "./output/dataset-master-sinta.csv"
+DATASET_DIR = "./output/dataset-test.csv"
 SAVE_PATH = "./output/output-indexed.csv"
 
 

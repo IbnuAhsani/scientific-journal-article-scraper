@@ -22,7 +22,8 @@ def main():
     for i in range(len(csv_data_list)):
         row = csv_data_list[i]
 
-        journal_title, article_title, article_abstract = itemgetter('JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(row)
+        index, journal_title, article_title, article_abstract = itemgetter(
+            'INDEX', 'JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(row)
 
         if article_abstract[-1] != '.':
             article_abstract += '.'

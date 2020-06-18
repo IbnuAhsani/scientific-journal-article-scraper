@@ -7,7 +7,7 @@ SAVE_PATH = "./output/output-trimmed.csv"
 
 def main():
     csv_data_list = fs.read_csv_list(DATASET_DIR)
-    minimum_article = 150
+    minimum_article = 400
     i = 0
 
     while i < len(csv_data_list):
@@ -44,8 +44,8 @@ def main():
     for i in range(len(csv_data_list)):
         row = csv_data_list[i]
 
-        sinta_index, journal_title, article_title, article_abstract = itemgetter(
-            'SINTA_INDEX', 'JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(row)
+        index, journal_title, article_title, article_abstract = itemgetter(
+            'INDEX', 'JOURNAL_TITLE', 'ARTICLE_TITLE', 'ARTICLE_ABSTRACT')(row)
         article = [0, journal_title, 0, article_title, article_abstract]
 
         article_list.append(article)
