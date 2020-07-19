@@ -1,5 +1,5 @@
 import re
-import text_processing as tp
+from . import text_processing as tp
 from langdetect import detect
 from pprint import pprint
 
@@ -31,7 +31,7 @@ class Crawler:
         max_pages = int(
             re.search('of(.*)\\|', pagination_info_string).group(1))
         journal_title = soup.find(
-            'div', {'class': 'j-meta-title'}).string.strip().encode('ascii', 'ignore')
+            'div', {'class': 'j-meta-title'}).string.strip()
 
         while current_page_num <= max_pages:
             print(self.journal_url)
@@ -46,8 +46,6 @@ class Crawler:
                 if article_abstract is None or article_title is None:
                     continue
 
-                article_title = article_title.encode('ascii', 'ignore')
-                article_abstract = article_abstract.encode('ascii', 'ignore')
                 article_abstract = article_abstract.replace("\n", " ")
 
                 is_period_exist = "." in article_abstract
@@ -72,8 +70,7 @@ class Crawler:
                         article_abstract_second_sentence_language != 'id'):
                     continue
 
-                article = ['S0', journal_title,
-                           article_title, article_abstract]
+                article = [journal_title, article_title, article_abstract]
 
                 is_article_duplicate = article in article_list
 
