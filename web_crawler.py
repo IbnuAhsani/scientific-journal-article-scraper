@@ -2,6 +2,9 @@ from utils import crawler, file_system as fs
 
 SAVE_PATH = "./output/output.csv"
 
+################################
+# USE PYTHON3 TO RUN THIS SCRIPT
+################################
 
 def main():
     start_page = 1
