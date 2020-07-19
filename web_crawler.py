@@ -4,10 +4,10 @@ SAVE_PATH = "./output/output.csv"
 
 
 def main():
-    start_page = 16
-    end_page = 20
-    page_limit = 2
-    base_url = 'http://sinta2.ristekdikti.go.id'
+    start_page = 1
+    end_page = 1
+    page_limit = 1
+    base_url = 'http://sinta.ristekbrin.go.id'
     journal_url = ''
     separator = '?page='
     sort_by = '&sort=impact'
