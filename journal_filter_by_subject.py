@@ -3,7 +3,7 @@ from utils import file_system as fs
 
 
 DATASET_PATH = "./output/dataset-test.csv"
-JOURNAL_SUBJECTS_PATH = "./output/journal-subject-stem.csv"
+JOURNAL_SUBJECTS_PATH = "./data/subject/journal-subject-stem.csv"
 SAVE_PATH = "./output/output-filtered-by-subject.csv"
 
 

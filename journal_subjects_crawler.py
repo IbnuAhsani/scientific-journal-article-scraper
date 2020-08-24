@@ -1,7 +1,7 @@
 import csv
 from utils import subject_crawler, file_system as fs
 
-SAVE_PATH = "./output/journal-subject.csv"
+SAVE_PATH = "./data/subject/journal-subject.csv"
 
 
 def main():
