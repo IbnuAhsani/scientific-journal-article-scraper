@@ -34,7 +34,6 @@ class Crawler:
             'div', {'class': 'j-meta-title'}).string.strip()
 
         while current_page_num <= max_pages:
-            print(self.journal_url)
             soup = tp.get_soup(self.journal_url)
 
             for div in soup.findAll('div', {'class': 'article-item'}):
@@ -90,6 +89,8 @@ class Crawler:
 
         if is_journal_crawled is True:
             print('| crawled journal ' + journal_title)
+        else:
+            print('| skipped journal ' + journal_title)
 
         return is_journal_crawled
 
