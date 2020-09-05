@@ -1,7 +1,5 @@
 # Scientific Journal Web Scraper
 
-## About
-
 A web crawler that scrapes Indonesian scientific journal and article data from [SINTA - Science and Technology Index](http://sinta.ristekbrin.go.id/) and [GARUDA - Garda Rujukan Digital](http://garuda.ristekbrin.go.id/), built using [Python3](https://www.python.org/download/releases/3.0/) and [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). 
 
 ## How To Run
@@ -26,7 +24,7 @@ The data that's scraped is saved in a `.csv` file with the `csv header` being `J
 
 ## Demo
 
-![](https://media.giphy.com/media/QxBNl4qSgXVINOQJkb/giphy.gif)
+![](https://media.giphy.com/media/QwyKOyo6te9BsTdAMk/giphy.gif)
 
 ## License
 
